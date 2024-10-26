@@ -56,16 +56,27 @@ Input_t* ReadInput(Error_t* err) {
 
 void PrintOutput(const Output_t* output) { printf("%s\n", output->answer); }
 
-int main(void) {
-  Error_t err = kOk;
-  Input_t* input = ReadInput(&err);
-  if (err == kOk) {
-    Output_t output = {"NW"};
-    // Output_t* output = Process(input, &err);
-    if (err == kOk) {
-      PrintOutput(&output);
-    }
-    free(input);
+Output_t* Process(Input_t* input, Error_t* err) {
+  if (*err != kOk) {
+    return NULL;
   }
-  return 0;
+  Output_t* output = (Output_t*)SafeMalloc(sizeof(Output_t), err);
+  if (*err == kOk) {
+    if (input->x > input->x1 && input->x < input->x2) {
+      output->answer = (input->y > input->y1) ? "N" : "S";
+    } else if (input->y > input->y1 && input->y < input->y2) {
+      output->answer = (input->x > input->x1) ? "E" : "W";
+    } else {
+      if (input->x > input->x1) {
+        output->answer = (input->y > input->y1) ? "NE" : "SE";
+      } else {
+        output->answer = (input->y > input->y1) ? "NW" : "SW";
+      }
+    }
+    if (*err != kOk) {
+      free(output);
+    }
+  }
+
+  return output;
 }
