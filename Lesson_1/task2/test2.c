@@ -120,12 +120,6 @@ END_TEST
 
 /*
 
-Negative
-
-*/
-
-/*
-
 Equal
 
 */
