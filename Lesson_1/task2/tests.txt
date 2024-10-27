@@ -1,7 +1,7 @@
-1
-1
-1
-1
+6
+2
+7
+3
 
 
 -- default Expect 3 4
@@ -22,7 +22,7 @@
 0
 1
 
--- equal Expect 2 2
+-- equal Expect 1 2
 1
 1
 1

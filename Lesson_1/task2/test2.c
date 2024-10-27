@@ -19,8 +19,8 @@ START_TEST(ProcessDef) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 3);
-  ck_assert_int_eq(output->N, 4);
+  ck_assert_int_eq(output->pair[0], 3);
+  ck_assert_int_eq(output->pair[1], 4);
 
   free(output);
 }
@@ -43,8 +43,7 @@ START_TEST(ProcessUsual1) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 2);
-  ck_assert_int_eq(output->N, 101);
+  ck_assert_int_eq(output->pair[0] + output->pair[1], 102);
 
   free(output);
 }
@@ -61,8 +60,7 @@ START_TEST(ProcessUsual2) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 2);
-  ck_assert_int_eq(output->N, 101);
+  ck_assert_int_eq(output->pair[0] + output->pair[1], 102);
 
   free(output);
 }
@@ -79,8 +77,7 @@ START_TEST(ProcessUsual3) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 101);
-  ck_assert_int_eq(output->N, 2);
+  ck_assert_int_eq(output->pair[0] + output->pair[1], 102);
 
   free(output);
 }
@@ -97,8 +94,25 @@ START_TEST(ProcessUsual4) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 101);
-  ck_assert_int_eq(output->N, 2);
+  ck_assert_int_eq(output->pair[0] + output->pair[1], 102);
+
+  free(output);
+}
+END_TEST
+
+START_TEST(ProcessUsual5) {
+  int A = 3;
+  int B = 2;
+  int C = 2;
+  int D = 4;
+
+  Input_t input = {A, B, C, D};
+  Error_t err = kOk;
+  Output_t *output = Process(&input, &err);
+
+  ck_assert_int_eq(err, kOk);
+  ck_assert_int_eq(output->pair[0], 4);
+  ck_assert_int_eq(output->pair[1], 1);
 
   free(output);
 }
@@ -127,8 +141,7 @@ START_TEST(ProcessEqual) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 2);
-  ck_assert_int_eq(output->N, 2);
+  ck_assert_int_eq(output->pair[0] + output->pair[1], 3);
 
   free(output);
 }
@@ -151,8 +164,8 @@ START_TEST(ProcessZero1) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 1);
-  ck_assert_int_eq(output->N, 1);
+  ck_assert_int_eq(output->pair[0], 1);
+  ck_assert_int_eq(output->pair[1], 1);
 
   free(output);
 }
@@ -169,8 +182,8 @@ START_TEST(ProcessZero2) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 1);
-  ck_assert_int_eq(output->N, 2);
+  ck_assert_int_eq(output->pair[0], 1);
+  ck_assert_int_eq(output->pair[1], 2);
 
   free(output);
 }
@@ -187,8 +200,8 @@ START_TEST(ProcessZero3) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 2);
-  ck_assert_int_eq(output->N, 1);
+  ck_assert_int_eq(output->pair[0], 2);
+  ck_assert_int_eq(output->pair[1], 1);
 
   free(output);
 }
@@ -205,8 +218,8 @@ START_TEST(ProcessZero4) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 1);
-  ck_assert_int_eq(output->N, 4);
+  ck_assert_int_eq(output->pair[0], 1);
+  ck_assert_int_eq(output->pair[1], 4);
 
   free(output);
 }
@@ -223,8 +236,8 @@ START_TEST(ProcessZero5) {
   Output_t *output = Process(&input, &err);
 
   ck_assert_int_eq(err, kOk);
-  ck_assert_int_eq(output->M, 4);
-  ck_assert_int_eq(output->N, 1);
+  ck_assert_int_eq(output->pair[0], 4);
+  ck_assert_int_eq(output->pair[1], 1);
 
   free(output);
 }
@@ -249,6 +262,7 @@ Suite *suite_process(void) {
   tcase_add_test(tc_core, ProcessUsual2);
   tcase_add_test(tc_core, ProcessUsual3);
   tcase_add_test(tc_core, ProcessUsual4);
+  tcase_add_test(tc_core, ProcessUsual5);
 
   tcase_add_test(tc_core, ProcessEqual);
 
