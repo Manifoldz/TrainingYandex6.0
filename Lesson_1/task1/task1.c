@@ -1,5 +1,8 @@
 // Let's make C style :)
 
+#ifndef TASK_H
+#define TASK_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -80,3 +83,5 @@ Output_t* Process(Input_t* input, Error_t* err) {
 
   return output;
 }
+
+#endif
