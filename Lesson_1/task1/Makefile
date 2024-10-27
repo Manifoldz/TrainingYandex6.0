@@ -42,6 +42,27 @@ gcov_report:
 	genhtml -o report report.info
 	open report/index.html
 
-
 clean:
 	rm -rf *.out *gc* *report*
+
+# Докер и валгринд
+NAME = test
+docker:
+	docker build -t $(NAME):v1 .
+	docker run -it --name $(NAME) $(NAME):v1 /bin/bash
+
+renew_docker: clean
+	docker start $(NAME)
+	docker exec $(NAME) rm -rf /code
+	docker cp . $(NAME):/code
+	docker exec -it $(NAME) /bin/bash
+
+delete_docker:
+	docker stop $(NAME)
+	docker rm $(NAME)
+	docker rmi $(NAME):v1
+
+
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+		--log-file=leaks_log.txt ./$(OUT_TEST); vim leaks_log.txt
