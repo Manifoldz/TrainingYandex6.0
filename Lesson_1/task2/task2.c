@@ -60,6 +60,35 @@ Output_t* Process(Input_t* input, Error_t* err) {
     return NULL;
   }
   Output_t* output = (Output_t*)SafeMalloc(sizeof(Output_t), err);
-
+  if (*err == kOk) {
+    // zero case t-shirt
+    if (input->A == 0 || input->B == 0) {
+      output->M = 1;
+      if (input->A == 0) {
+        output->N = input->C + 1;
+      } else {
+        output->N = input->D + 1;
+      }
+      return output;
+    }
+    // zero case socks
+    if (input->C == 0 || input->D == 0) {
+      output->N = 1;
+      if (input->C == 0) {
+        output->M = input->A + 1;
+      } else {
+        output->M = input->B + 1;
+      }
+      return output;
+    }
+    // other cases
+    if (input->A + input->C > input->B + input->D) {
+      output->M = input->B + 1;
+      output->N = input->D + 1;
+    } else {
+      output->M = input->A + 1;
+      output->N = input->C + 1;
+    }
+  }
   return output;
 }

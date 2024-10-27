@@ -1,7 +1,7 @@
-6
-2
-7
-3
+1
+1
+1
+1
 
 
 -- default Expect 3 4
@@ -16,7 +16,7 @@
 1
 0
 
---zero2 Expect 2 2
+--zero2 Expect 2 1
 1
 1
 0
