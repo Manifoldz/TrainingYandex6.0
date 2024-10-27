@@ -1,3 +1,9 @@
 .vscode
 *temp*
 *.out*
+*gc*
+*report*
+
+.DS_Store
+
+task3

@@ -1,0 +1,30 @@
+6
+2
+7
+3
+
+
+-- default Expect 3 4
+6
+2
+7
+3
+
+--zero1 Expect 1 1
+1
+0
+1
+0
+
+--zero2 Expect 2 2
+1
+1
+0
+1
+
+-- equal Expect 2 2
+1
+1
+1
+1
+
