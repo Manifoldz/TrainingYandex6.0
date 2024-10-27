@@ -44,7 +44,6 @@ Input_t* ReadInput(Error_t* err) {
   Input_t* input = (Input_t*)SafeMalloc(sizeof(Input_t), err);
   if (*err == kOk) {
     if (scanf("%d%d%d%d", &input->A, &input->B, &input->C, &input->D) != 4) {
-      free(input);
       *err = kErrInput;
     };
   }

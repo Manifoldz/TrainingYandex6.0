@@ -1,4 +1,4 @@
-#include "task1.c"
+#include "task2.c"
 
 int main(void) {
   Error_t err = kOk;
@@ -8,7 +8,8 @@ int main(void) {
     if (err == kOk) {
       PrintOutput(output);
     }
-    free(input);
+    free(output);
   }
+  free(input);
   return err;
 }

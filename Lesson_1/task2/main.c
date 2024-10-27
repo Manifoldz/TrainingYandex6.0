@@ -8,7 +8,8 @@ int main(void) {
     if (err == kOk) {
       PrintOutput(output);
     }
-    free(input);
+    free(output);
   }
+  free(input);
   return err;
 }

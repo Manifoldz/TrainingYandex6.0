@@ -23,6 +23,10 @@ else ifneq ($(OS), Darwin)
 	CHECKFLAGS += -lsubunit -lpthread
 endif
 
+cpp:
+	g++ -O2 -lm -fno-stack-limit -std=c++20 -x c++ for_platform.cc -o executable
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+	--log-file=leaks_log.txt ./executable < tests.txt; vim leaks_log.txt
 
 build:
 	$(CC) $(CFLAGS) $(SANFLAG) $(COVFLAGS) $(C_TARGET) -o $(OUT_TARGET) $(CHECKFLAGS)
