@@ -201,7 +201,8 @@ Output_t* Process(Input_t* input, Error_t* err) {
         }
       }
     } else if (y1 > y3 && y3 >= y4 && y4 == y2) {
-      if (x1 < x3 && x3 <= x4 && x4 < x2 && x4 == x2) {
+      // printf("yes");
+      if (x1 < x3 && x3 <= x4 && x4 == x2) {
         output->answer = 'L';
       }
     }
