@@ -132,6 +132,8 @@ Output_t* Process(Input_t* input, Error_t* err) {
         if (light_rect.x == 0) {
           light_rect.y = i;
           light_rect.x = j;
+        } else if (j < light_rect.x) {
+          light_rect.x = j;
         } else if (light_rect.x + light_rect.width <= j) {
           ++light_rect.width;
         } else if (light_rect.y + light_rect.height <= i) {
