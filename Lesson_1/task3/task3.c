@@ -115,9 +115,28 @@ Output_t* Process(Input_t* input, Error_t* err) {
   if (*err == kOk) {
     int count_rect = 0;
     output->answer = 'X';
+    Rect_t light_rect = {0, 0, 1, 1};
+    // Search light diods
+    for (int i = 1; i < input->n - 1; i++) {
+      for (int j = 1; j < input->n - 1; j++) {
+        if (input->arr[i][j] == '#') {
+          if (light_rect.x == 0) {
+            light_rect.y = i;
+            light_rect.x = j;
+          } else if (light_rect.x + light_rect.width <= j) {
+            ++light_rect.width;
+          } else if (light_rect.y + light_rect.height <= i) {
+            ++light_rect.height;
+          }
+        }
+      }
+    }
+    printf("\n%d %d\n", light_rect.y, light_rect.x);
+    printf("\n%d %d\n", light_rect.width, light_rect.height);
     Rect_t rect[2] = {{0}, {0}};
-    for (int i = 1; i < input->n - 2; i++) {
-      for (int j = 1; j < input->n - 2; j++) {
+    // Mark rectangles
+    for (int i = light_rect.y; i < light_rect.y + light_rect.height; i++) {
+      for (int j = light_rect.x; j < light_rect.x + light_rect.width; j++) {
         if (input->arr[i][j] == '.') {
           if (count_rect == 2) {
             return output;
@@ -127,7 +146,9 @@ Output_t* Process(Input_t* input, Error_t* err) {
           rect[count_rect].width = CountWidth(input, i, j);
           MarkWidth(input, i, j, rect[count_rect].width, count_rect);
           while (CountWidth(input, i + rect[count_rect].height + 1, j) >=
-                 rect[count_rect].width) {
+                     rect[count_rect].width &&
+                 rect[count_rect].y + rect[count_rect].height + 1 <
+                     light_rect.y + light_rect.height) {
             ++rect[count_rect].height;
             MarkWidth(input, i + rect[count_rect].height, j,
                       rect[count_rect].width, count_rect);

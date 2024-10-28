@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c11 -pedantic -Wall -Werror -Wextra -g
+CFLAGS=-std=c11 -pedantic -Wall -Werror -Wextra
 SANFLAG=#-fsanitize=address -g
 COVFLAGS=-fprofile-arcs -ftest-coverage
 
