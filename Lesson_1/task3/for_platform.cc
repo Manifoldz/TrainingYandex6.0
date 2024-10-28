@@ -220,7 +220,7 @@ Output_t* Process(Input_t* input, Error_t* err) {
       Swap(&x6, &x4);
       Swap(&y6, &y4);
     }
-    if (x1 < x3 && x3 == x5 && x5 < x4 && x4 == x6 && x6 < x2) {
+    if (x1 < x3 && x3 == x5 && x5 <= x4 && x4 == x6 && x6 < x2) {
       if (y1 == y3 && y3 >= y4 && y4 > y5 && y5 >= y6 && y6 == y2) {
         output->answer = 'H';
       }
