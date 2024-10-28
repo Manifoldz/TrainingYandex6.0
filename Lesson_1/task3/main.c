@@ -1,5 +1,5 @@
 #include "task3.c"
-#if 0
+#if 1
 int main(void) {
   Error_t err = kOk;
   Input_t* input = ReadInput(&err);
@@ -10,11 +10,12 @@ int main(void) {
     }
     free(output);
   }
+  free(input->arr);
   free(input);
   return err;
 }
 #endif
-#if 1
+#if 0
 int main(void) {
   Error_t err = kOk;
   Input_t* input = ReadInput(&err);
