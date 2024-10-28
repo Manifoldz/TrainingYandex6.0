@@ -114,6 +114,28 @@ START_TEST(ProcessDef5) {
 }
 END_TEST
 
+START_TEST(ProcessDef6) {
+  char row0[] = "''''''''";
+  char row1[] = "'######'";
+  char row2[] = "'##..##'";
+  char row3[] = "'##..##'";
+  char row4[] = "'######'";
+  char row5[] = "'......";
+  char row6[] = "'......'";
+  char row7[] = "''''''''";
+
+  char *diods[] = {row0, row1, row2, row3, row4, row5, row6, row7};
+  Input_t input = {8, diods};
+  Error_t err = kOk;
+  Output_t *output = Process(&input, &err);
+
+  ck_assert_int_eq(err, kOk);
+  ck_assert_int_eq(output->answer, 'O');
+
+  free(output);
+}
+END_TEST
+
 /*
 
 Usual
@@ -137,6 +159,26 @@ START_TEST(ProcessUsual1) {
 
   ck_assert_int_eq(err, kOk);
   ck_assert_int_eq(output->answer, 'C');
+
+  free(output);
+}
+END_TEST
+
+START_TEST(ProcessUsual2) {
+  char row0[] = "''''''''";
+  char row1[] = "'####'";
+  char row2[] = "'##.#'";
+  char row3[] = "'####'";
+  char row4[] = "'####'";
+  char row5[] = "''''''''";
+
+  char *diods[] = {row0, row1, row2, row3, row4, row5};
+  Input_t input = {6, diods};
+  Error_t err = kOk;
+  Output_t *output = Process(&input, &err);
+
+  ck_assert_int_eq(err, kOk);
+  ck_assert_int_eq(output->answer, 'O');
 
   free(output);
 }
@@ -210,8 +252,10 @@ Suite *suite_process(void) {
   tcase_add_test(tc_core, ProcessDef3);
   tcase_add_test(tc_core, ProcessDef4);
   tcase_add_test(tc_core, ProcessDef5);
+  tcase_add_test(tc_core, ProcessDef6);
 
   tcase_add_test(tc_core, ProcessUsual1);
+  tcase_add_test(tc_core, ProcessUsual2);
 
   tcase_add_test(tc_core, ProcessWrong1);
   tcase_add_test(tc_core, ProcessWrong2);

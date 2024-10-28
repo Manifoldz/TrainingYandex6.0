@@ -186,17 +186,20 @@ Output_t* Process(Input_t* input, Error_t* err) {
   int x4 = rect[0].x + rect[0].width - 1;
   int y4 = rect[0].y;
 
+  // PrintInput(input);
+
   if (count_rect == 1) {
-    if (y1 > y3 && y3 > y4 && y4 > y2) {
-      if (x1 < x3 && x3 < x4) {
+    if (y1 > y3 && y3 >= y4 && y4 > y2) {
+      // printf("yes");
+      if (x1 < x3 && x3 <= x4) {
         if (x4 < x2) {
           output->answer = 'O';
         } else if (x4 == x2) {
           output->answer = 'C';
         }
       }
-    } else if (y1 > y3 && y3 > y4 && y4 == y2) {
-      if (x1 < x3 && x3 < x4 && x4 < x2 && x4 == x2) {
+    } else if (y1 > y3 && y3 >= y4 && y4 == y2) {
+      if (x1 < x3 && x3 <= x4 && x4 < x2 && x4 == x2) {
         output->answer = 'L';
       }
     }
@@ -215,11 +218,11 @@ Output_t* Process(Input_t* input, Error_t* err) {
       Swap(&y6, &y4);
     }
     if (x1 < x3 && x3 == x5 && x5 < x4 && x4 == x6 && x6 < x2) {
-      if (y1 == y3 && y3 > y4 && y4 > y5 && y5 > y6 && y6 == y2) {
+      if (y1 == y3 && y3 >= y4 && y4 > y5 && y5 >= y6 && y6 == y2) {
         output->answer = 'H';
       }
-    } else if (x1 < x3 && x3 == x5 && x5 < x6 && x6 < x4 && x4 == x2) {
-      if (y1 == y3 && y3 > y4 && y4 > y5 && y5 > y6 && y6 > y2) {
+    } else if (x1 < x3 && x3 == x5 && x5 <= x6 && x6 < x4 && x4 == x2) {
+      if (y1 == y3 && y3 >= y4 && y4 > y5 && y5 >= y6 && y6 > y2) {
         output->answer = 'P';
       }
     }
