@@ -11,6 +11,13 @@ typedef struct {
   char answer;
 } Output_t;
 
+typedef struct {
+  int x;
+  int y;
+  int width;
+  int height;
+} Rect_t;
+
 typedef enum {
   kOk = 0,
   kErrInput = 1,
@@ -46,7 +53,7 @@ Input_t* ReadInput(Error_t* err) {
     } else {
       input->n += 2;
       input->arr = (char**)SafeMalloc(
-          sizeof(char) * input->n * input->n + sizeof(char) * input->n, err);
+          sizeof(char) * input->n * input->n + sizeof(char*) * input->n, err);
       if (*err == kOk) {
         char* ptr = (char*)(input->arr + input->n);
         for (int i = 0; i < input->n; i++) {
@@ -86,14 +93,49 @@ void PrintInput(Input_t* input) {
 
 void PrintOutput(const Output_t* output) { printf("%c\n", output->answer); }
 
+void MarkWidth(Input_t* input, int i, int j, int width, int count_rect) {
+  for (int k = 0; k < width; k++) {
+    input->arr[i][j + k] = '1' + count_rect;
+  }
+}
+
+int CountWidth(Input_t* input, int i, int j) {
+  int counter = 0;
+  while (input->arr[i][j + counter] == '.') {
+    ++counter;
+  }
+  return counter;
+}
+
 Output_t* Process(Input_t* input, Error_t* err) {
   if (*err != kOk) {
     return NULL;
   }
   Output_t* output = (Output_t*)SafeMalloc(sizeof(Output_t), err);
   if (*err == kOk) {
-    input->n = input->n;
+    int count_rect = 0;
+    output->answer = 'X';
+    Rect_t rect[2] = {{0}, {0}};
+    for (int i = 1; i < input->n - 2; i++) {
+      for (int j = 1; j < input->n - 2; j++) {
+        if (input->arr[i][j] == '.') {
+          if (count_rect == 2) {
+            return output;
+          }
+          rect[count_rect].y = i;
+          rect[count_rect].x = j;
+          rect[count_rect].width = CountWidth(input, i, j);
+          MarkWidth(input, i, j, rect[count_rect].width, count_rect);
+          while (CountWidth(input, i + rect[count_rect].height + 1, j) >=
+                 rect[count_rect].width) {
+            ++rect[count_rect].height;
+            MarkWidth(input, i + rect[count_rect].height, j,
+                      rect[count_rect].width, count_rect);
+          }
+          ++count_rect;
+        }
+      }
+    }
   }
-
   return output;
 }
