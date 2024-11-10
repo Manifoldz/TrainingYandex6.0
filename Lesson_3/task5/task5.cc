@@ -51,67 +51,80 @@ int Priority(char c) {
   return res;
 }
 
-int main(void) {
-  char curr_char = '\0';
-  char prev_char = '\0';
+void AddSpace(std::string& str) {
+  if (!str.empty() && str.back() != ' ') {
+    str += ' ';
+  }
+}
 
-  std::cin >> curr_char;
+void AddOperator(std::string& str, char c) {
+  AddSpace(str);
+  str += c;
+}
 
-  std::string parsed_str;
+std::string Parse() {
   std::stack<char> s;
+  std::string parsed_str;
+  char prev_char = '\0', curr_char = std::cin.get();
 
   while (curr_char != '\n') {
-    std::cout << curr_char << "_";
-    if (IsDigit(curr_char) || curr_char == ' ') {
+    if (curr_char == ' ') {
+      AddSpace(parsed_str);
+    } else if (IsDigit(curr_char)) {
       parsed_str += curr_char;
     } else if (curr_char == '(') {
       s.push(curr_char);
     } else if (curr_char == ')') {
       while (!s.empty() && s.top() != '(') {
-        parsed_str += s.top();
+        AddOperator(parsed_str, s.top());
         s.pop();
       }
       if (s.empty()) {
-        // in case no finded '('
-        std::cout << "WRONG";
-        return 0;
+        throw std::invalid_argument("no finded '('");
       } else {
         s.pop();
       }
-    } else if (curr_char == '+' || curr_char == '*' ||
-               (curr_char == '-' && IsDigit(prev_char))) {
-      while (!s.empty() && Priority(curr_char) >= Priority(s.top())) {
-        parsed_str += s.top();
+    } else if (curr_char == '+' || curr_char == '*' || curr_char == '-') {
+      // hack to fix unar minus
+      if (curr_char == '-' && !IsDigit(prev_char)) {
+        AddSpace(parsed_str);
+        parsed_str += "0 ";
+      } else if (!IsDigit(prev_char)) {
+        throw std::invalid_argument("several operators one by one");
+      }
+      while (!s.empty() && Priority(curr_char) <= Priority(s.top())) {
+        AddOperator(parsed_str, s.top());
         s.pop();
       }
       s.push(curr_char);
-    } else if (curr_char == '-') {
-      // hack - use '!' for highlight unar '-'
-      parsed_str += '!';
     } else {
-      // in case other symbols
-      std::cout << "WRONG";
-      return 0;
+      throw std::invalid_argument("wrong symbol");
     }
 
     if (curr_char != ' ') {
       prev_char = curr_char;
     }
-    std::cin >> curr_char;
+    curr_char = std::cin.get();
   }
 
   while (!s.empty()) {
-    parsed_str += s.top();
+    AddOperator(parsed_str, s.top());
+    s.pop();
+  }
+
+  return parsed_str;
+}
+
+int main(void) {
+  std::string parsed_str;
+  try {
+    parsed_str = Parse();
+  } catch (std::invalid_argument) {
+    std::cout << "WRONG";
+    return 0;
   }
 
   std::cout << parsed_str;
-
-  // int res = 0;
-  //   if (Calculate(parsed_str, &res)) {
-  //     std::cout << "WRONG";
-  //   } else {
-  //     std::cout << res;
-  //   }
 
   return 0;
 }
