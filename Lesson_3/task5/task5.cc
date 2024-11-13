@@ -99,9 +99,9 @@ std::string Parse() {
     } else if (curr_char == '+' || curr_char == '*' || curr_char == '-') {
       AddSpace(parsed_str);
       // hack to fix unar minus
-      if (curr_char == '-' && !IsDigit(prev_char)) {
+      if (curr_char == '-' && !IsDigit(prev_char) && prev_char != ')') {
         parsed_str += "0 ";
-      } else if (!IsDigit(prev_char)) {
+      } else if (!IsDigit(prev_char) && prev_char != ')') {
         throw std::invalid_argument("several operators one by one");
       }
       while (!s.empty() && Priority(curr_char) <= Priority(s.top())) {
