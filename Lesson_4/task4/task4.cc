@@ -58,6 +58,15 @@ std::string Insert(Node **root, int val) {
   return "DONE\n";
 }
 
+void DeleteTree(Node *root) {
+  if (root == nullptr) {
+    return;
+  }
+  DeleteTree(root->left);
+  DeleteTree(root->right);
+  delete root;  // Освобождаем память под текущий узел
+}
+
 int main(void) {
   std::string oper;
   int num{0};
@@ -80,6 +89,8 @@ int main(void) {
       }
     }
   }
+
+  DeleteTree(root);
 
   return 0;
 }
