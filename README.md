@@ -1,9 +1,9 @@
 <p align="center"> 
-    <img align="center"  src="pictures/banner.png" />
+    <img align="center"  src="pictures/banner.png" width=600/>
 </p> 
 
 <p align="center"> 
-    <img align="center"  src="pictures/certificate.jpg" />
+    <img align="center"  src="pictures/certificate.jpg" width=600/>
 </p> 
 
 ### Яндекс-тренировки по алгоритмам 6.0. 
